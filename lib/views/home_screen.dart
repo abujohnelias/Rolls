@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
+import 'package:rollz/components/theme_switch_button.dart';
 
 final randomizer = Random();
 
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen>
   //
 
   //?
-  var curretDiceRoll = 1;
+  var currentDiceRoll = 1;
 
   //?
 
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   void rollDice() {
     setState(() {
-      curretDiceRoll = randomizer.nextInt(6) + 1;
+      currentDiceRoll = randomizer.nextInt(6) + 1;
       isAnimationPlaying = true;
       _animationController.forward(from: 0.0);
     });
@@ -42,7 +43,13 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: const [
+          ThemeSwitchButton(),
+        ],
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -58,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 child: Center(
                   child: Image.asset(
-                    "assets/images/dice$curretDiceRoll.png",
+                    "assets/images/dice$currentDiceRoll.png",
                     width: MediaQuery.of(context).size.width * 0.5,
                   ),
                 ),
@@ -67,24 +74,16 @@ class _HomeScreenState extends State<HomeScreen>
               //?button
 
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
-                // padding: EdgeInsets.only(
-                //   top: MediaQuery.of(context).size.width * .1,
-                // ),
-                child: InkWell(
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: GestureDetector(
                   onTap: rollDice,
-                  child: Column(
-                    children: [
-                      Lottie.asset(
-                        'assets/animations/Animation - 1702296912103.json',
-                        width: MediaQuery.of(context).size.width * 0.1,
-                        controller: _animationController,
-                        onLoaded: (composition) {
-                          _animationController.duration = composition.duration;
-                        },
-                        fit: BoxFit.contain,
-                      ),
-                    ],
+                  child: Lottie.asset(
+                    'assets/animations/Animation - 1702296912103.json',
+                    controller: _animationController,
+                    onLoaded: (composition) {
+                      _animationController.duration = composition.duration;
+                    },
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
